@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>AdBlock Checker</title>
+  </head>
+  <body>
+    <div id="result"></div>
+    
+    <script>
+      function init() {
+        adsBlocked().then(adsAreBeingBlocked => {
+          const msg = { adsAreBeingBlocked };
+          document.getElementById('result').innerText = JSON.stringify(msg);
+          console.log(msg);  
+        });
+      }
+
+      function adsBlocked() {
+        const testURL ='https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
+        const reqOpt = {
+          method: 'HEAD',
+          mode: 'no-cors'
+        };
+        const testReq = new Request(testURL, reqOpt);
+
+        return fetch(testReq)
+          .then(res => { return false })
+          .catch(err =>{ return true })
+      }
+
+      document.addEventListener("DOMContentLoaded", init());
+
+    </script>
+  </body>
+</html>
